@@ -8,3 +8,8 @@
 *.ipr
 *.iws
 .idea/
+
+# eclipse-generated files #
+.settings
+.classpath
+.project
