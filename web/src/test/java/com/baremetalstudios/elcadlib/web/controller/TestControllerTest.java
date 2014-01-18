@@ -9,9 +9,14 @@
 // ============================================================================
 package com.baremetalstudios.elcadlib.web.controller;
 
+import org.junit.Test;
+
 /**
  * @author Ivan Bondarenko
  * @version 1.0
  */
 public class TestControllerTest {
+    @Test
+    public void fakeTestJustCIMonitorRemoveMe() {
+    }
 }

@@ -14,4 +14,11 @@
     <name>Electronic CAD Library Web Site</name>
     <description>Web portal for the elcadlib project</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
