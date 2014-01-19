@@ -1,6 +1,6 @@
 // ============================================================================
-//  File          : SeleniumExampleTest
-//  Created       : 16.01.2014   
+//  File          : ComponentSearchTest
+//  Created       : 19.01.2014   
 //  Description   :
 //  Modifications :
 //
@@ -17,34 +17,39 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Ivan Bondarenko
  * @version 1.0
  */
-public class SeleniumExampleTest extends AbstractSeleniumTest {
+public class ComponentSearchTest extends AbstractSeleniumTest {
     @Test
     public void simpleTest() {
-        driver.get("http://www.google.com");
-        assertEquals("Google", driver.getTitle());
+        driver.get("http://localhost:8085/webtest");
+        assertEquals("Electronic CAD Library", driver.getTitle());
 
-        searchForJavaKeyword();
-        waitForPage(driver);
+        searchForKeyword("");
+        assertResultCount(10);
 
-        assertTrue(driver.getTitle().startsWith("Java"));
+        searchForKeyword("NOC-R42");
+        assertResultCount(1);
     }
 
-    private void searchForJavaKeyword() {
+    private void assertResultCount(int resultNumber) {
+        assertEquals("Total : " + resultNumber, driver.findElement(By.id("resTotal")).getText());
+    }
+
+    private void searchForKeyword(String val) {
         WebElement element = driver.findElement(By.name("q"));
-        element.sendKeys("Java");
+        element.sendKeys(val);
         element.submit();
+        waitForPage(driver);
     }
 
     private static void waitForPage(WebDriver driver) {
         new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().startsWith("Java");
+            public Boolean apply(WebDriver drv) {
+                return drv.getTitle().startsWith("Elcadlib search result");
             }
         });
     }

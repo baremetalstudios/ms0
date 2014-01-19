@@ -27,6 +27,13 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>web</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -71,6 +78,57 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Start web server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>Stop web server</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <container>
+                        <containerId>jetty7x</containerId>
+                        <type>embedded</type>
+                        <log>${project.build.directory}/cargo.log</log>
+                        <dependencies>
+                            <dependency>
+                                <location>${project.basedir}/src/test/resources/conf/</location>
+                            </dependency>
+                        </dependencies>
+                    </container>
+
+                    <configuration>
+                        <properties>
+                            <cargo.servlet.port>8085</cargo.servlet.port>
+                            <cargo.logging>high</cargo.logging>
+                        </properties>
+                    </configuration>
+
+                    <deployables>
+                        <deployable>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>web</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>webtest</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
