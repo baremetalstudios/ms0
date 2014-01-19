@@ -55,6 +55,6 @@ public class ComponentControllerTest {
 
         ResultActions results = mvc.perform(get("/component/find").param("q", "B52"));
         results.andExpect(status().isOk()).andExpect(model().attribute("components", components))
-                .andExpect(view().name("component/componentList"));
+                .andExpect(view().name("component/list"));
     }
 }
